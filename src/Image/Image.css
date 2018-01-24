@@ -1,12 +1,12 @@
 .imgPreviewComponent {
-
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .imgPreviewComponent .imgPreviewContainer {
     width: 100px;
     height: 100px;
     display: inline-block;
-    margin: 1em;
     border: 1px solid #eeeeee;
 }
 
