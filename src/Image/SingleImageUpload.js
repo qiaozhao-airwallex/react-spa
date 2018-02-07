@@ -3,33 +3,32 @@ import './Image.css'
 import {postImageToServer} from './ImageUploadHelper'
 
 export default class SingleImageUpload extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            image: {
-                imagePreviewUrl: null
-            }
-        };
-    }
+
     uploadImageToServer(e) {
         e.preventDefault();
 
-        postImageToServer(e.target.files[0], (serverFileName) => {
-            this.setState({
-                image:
-                {
-                    imagePreviewUrl: serverFileName
-                }
-            });
+        postImageToServer(e.target.files[0], (serverFileName, imagePreviewUrl) => {
+            this.props.setImage({
+                targetFileName: serverFileName,
+                imagePreviewUrl: imagePreviewUrl
+            })
         });
     }
 
     render() {
         let $imagePreview = null;
-        if (this.state.image.imagePreviewUrl) {
-            $imagePreview = (<img className="imgPreview" alt="preview" src={this.state.image.imagePreviewUrl}/>);
+        if (this.props.image.imagePreviewUrl) {
+            $imagePreview = (
+                <div className="imgPreviewContainer">
+                    <img className="imgPreview" alt="preview" src={this.props.image.imagePreviewUrl}/>
+                </div>
+                );
         } else {
-            $imagePreview = (<div className="previewText">Please select front image</div>);
+            $imagePreview = (
+                <div className="imgPreviewContainer">
+                    <div className="previewText">Please select front image</div>
+                </div>
+            );
         }
         return (
             <div className="imgPreviewComponent">
@@ -37,9 +36,7 @@ export default class SingleImageUpload extends React.Component {
                        type="file"
                        onChange={(e)=>this.uploadImageToServer(e)} />
                 <div className="imgPreviewComponent">
-                    <div className="imgPreviewContainer">
-                        {$imagePreview}
-                    </div>
+                    {$imagePreview}
                 </div>
             </div>
         )
