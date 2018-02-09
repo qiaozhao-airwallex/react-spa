@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import MultipleImageUpload from '../Image/MultipleImageUpload'
-import SingleImageUpload from '../Image/SingleImageUpload'
 import {productBackendURL} from '../Config/Config'
 
 export default class CreateStuff extends Component {
@@ -10,24 +9,14 @@ export default class CreateStuff extends Component {
         this.state = {
             subject: null,
             description: null,
-            mainImage: {
-                originalFileName: null,
-                targetFileName: null
-            },
-            otherImages: [],
+            imageList: [],
             published: null
         }
     }
 
-    setMainImageCallback = (mainImage) => {
+    updateImageListCallback = (imageList) => {
         this.setState({
-            mainImage: mainImage
-        });
-    }
-
-    updateOtherImagesCallback = (otherImages) => {
-        this.setState({
-            otherImages: otherImages
+            imageList: imageList
         });
     }
 
@@ -62,8 +51,7 @@ export default class CreateStuff extends Component {
         let payload = {
             subject: this.state.subject,
             description: this.state.description,
-            mainImage: this.state.mainImage,
-            otherImages: this.state.otherImages,
+            imageList: this.state.imageList,
             published: this.state.published,
         };
 
@@ -102,8 +90,7 @@ export default class CreateStuff extends Component {
                         <Label for="description">Description</Label>
                         <Input type="textarea" name="description" id="description"  onChange={this.onChange}/>
                     </FormGroup>
-                    <SingleImageUpload image={this.state.mainImage} setImage={this.setMainImageCallback}/>
-                    <MultipleImageUpload imageList={this.state.otherImages} setImageList={this.updateOtherImagesCallback}/>
+                    <MultipleImageUpload imageList={this.state.imageList} setImageList={this.updateImageListCallback}/>
                     <Button color="primary" onClick={this.handleSubmit}>Submit</Button>{' '}
                     <Button color="info" onClick={this.handleSaveForLater}>Save for later</Button>{' '}
                     <Button color="danger" onClick={this.handleDiscard}>Discard</Button>{' '}

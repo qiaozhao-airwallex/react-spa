@@ -8,15 +8,19 @@ export default class MultipleImageUpload extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            imagesToRemove: [],
+            tmpImagesAdded: [],
+            tmpImagesRemoved: [],
             displayOrder: 0,
         }
     }
 
     componentWillUnmount() {
-        if (this.props.toSave) {
-            console.log("Remove Images From Server")
-            this.state.imagesToRemove.map((item, i) => {
+        if (this.props.changeSaved) {
+            this.state.tmpImagesRemoved.map((item, i) => {
+                return removeImageFromServer(item.targetFileName);
+            });
+        } else {
+            this.state.tmpImagesAdded.map((item, i) => {
                 return removeImageFromServer(item.targetFileName);
             });
         }
@@ -26,7 +30,12 @@ export default class MultipleImageUpload extends React.Component {
         e.preventDefault();
         postImageToServer(e.target.files[0], (serverFileName, imagePreviewUrl) => {
             this.setState({
-                displayOrder: this.state.displayOrder + 1
+                tmpImagesAdded: this.state.tmpImagesAdded.concat({
+                    targetFileName: serverFileName,
+                    imagePreviewUrl: imagePreviewUrl,
+                    displayOrder: this.state.displayOrder,
+                }),
+                displayOrder: this.props.imageList.length > 0 ? this.props.imageList[this.props.imageList.length - 1].displayOrder + 1 : 1
             }, () => {
                 var data = this.props.imageList;
                 data.push({
@@ -46,7 +55,7 @@ export default class MultipleImageUpload extends React.Component {
         this.props.setImageList(data);
 
         this.setState({
-            imagesToRemove: this.state.imagesToRemove.concat(image),
+            tmpImagesRemoved: this.state.tmpImagesRemoved.concat(image),
         })
     }
 

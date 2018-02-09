@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import MultipleImageUpload from '../Image/MultipleImageUpload'
-import SingleImageUpload from '../Image/SingleImageUpload'
 import {productBackendURL} from '../Config/Config'
 import {populateImagePreviewUrl} from '../Image/ImageHelper'
 
@@ -12,13 +11,10 @@ export default class UpdateStuff extends Component {
             id: null,
             subject: '',
             description: '',
-            mainImage: {
-                originalFileName: null,
-                targetFileName: null
-            },
-            otherImages: [],
+            imageList: [],
             published: null,
-            toSave: false,
+            changeSaved: false,
+            payload: {},
         }
     }
 
@@ -39,8 +35,7 @@ export default class UpdateStuff extends Component {
                     id: data.id,
                     subject: data.subject,
                     description: data.description,
-                    mainImage: populateImagePreviewUrl(data.mainImage),
-                    otherImages: data.otherImages.map((item, i) => {
+                    imageList: data.imageList.map((item, i) => {
                         return populateImagePreviewUrl(item);
                     }),
                     published: data.published,
@@ -53,61 +48,58 @@ export default class UpdateStuff extends Component {
 
     }
 
-    setMainImageCallback = (mainImage) => {
+    updateImageListCallback = (imageList) => {
+        const payload = this.state.payload;
+        payload["imageList"] = imageList;
         this.setState({
-            mainImage: mainImage
-        });
-    }
-
-    updateOtherImagesCallback = (otherImages) => {
-        this.setState({
-            otherImages: otherImages
+            imageList: imageList,
+            payload: payload,
         });
     }
 
     onChange = (e) => {
         const state = this.state;
         state[e.target.name] = e.target.value;
+        const payload = this.state.payload;
+        payload[e.target.name] = e.target.value;
+        state[payload] = payload;
         this.setState(state);
     }
 
     handleSaveForLater = (e) => {
         this.setState({
             published: false,
-            toSave: true,
+            changeSaved: true,
         }, function() {
             this.saveToServer();
         });
+        window.location = '/my-stuff/' + this.state.id;
     }
 
     handleDiscard = (e) => {
-        alert("Discard")
         this.setState({
             published: false,
-            toSave: false,
-        }, function() {
-            // this.saveToServer();
+            changeSaved: false,
         });
+        window.location = '/my-stuff/' + this.state.id;
     }
 
-    handleSubmit = (e) => {
+    handlePublish = (e) => {
         e.preventDefault();
+        const payload = this.state.payload;
+        payload["published"] = true;
         this.setState({
             published: true,
-            toSave: true,
+            payload: payload,
+            changeSaved: true,
         }, function() {
             this.saveToServer();
         });
+        window.location = '/my-stuff/' + this.state.id;
     }
 
     saveToServer = () => {
-        let payload = {
-            subject: this.state.subject,
-            description: this.state.description,
-            mainImage: this.state.mainImage,
-            otherImages: this.state.otherImages,
-            published: this.state.published,
-        };
+        let payload = this.state.payload;
 
         fetch(productBackendURL + "/" + this.state.id, {
             method: 'PUT',
@@ -127,6 +119,9 @@ export default class UpdateStuff extends Component {
             .catch((error) => {
                 console.log(error)
             });
+        this.setState({
+            payload: {}
+        })
     }
 
     render() {
@@ -141,11 +136,10 @@ export default class UpdateStuff extends Component {
                         <Label for="description">Description</Label>
                         <Input type="textarea" name="description" id="description" value={this.state.description || ''} onChange={this.onChange} />
                     </FormGroup>
-                    <SingleImageUpload image={this.state.mainImage} setImage={this.setMainImageCallback}/>
-                    <MultipleImageUpload imageList={this.state.otherImages}
-                                         setImageList={this.updateOtherImagesCallback}
-                                         toSave={this.state.toSave} />
-                    <Button color="primary" onClick={this.handleSubmit}>Submit</Button>{' '}
+                    <MultipleImageUpload imageList={this.state.imageList}
+                                         setImageList={this.updateImageListCallback}
+                                         changeSaved={this.state.changeSaved} />
+                    <Button color="primary" onClick={this.handlePublish}>Publish</Button>{' '}
                     <Button color="info" onClick={this.handleSaveForLater}>Save for later</Button>{' '}
                     <Button color="danger" onClick={this.handleDiscard}>Discard</Button>{' '}
                 </Form>

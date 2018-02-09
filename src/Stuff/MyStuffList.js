@@ -51,8 +51,8 @@ export default class MyStuffList extends Component {
                 <div className="item-list">
                         {this.state.stuffList.map((item, i) => {
                             var $imgAbsolutURL = null;
-                            if (item.mainImage != null) {
-                                $imgAbsolutURL = getImageURL(item.mainImage.targetFileName);
+                            if (item.imageList != null && item.imageList.length > 0) {
+                                $imgAbsolutURL = getImageURL(item.imageList[0].targetFileName);
                             }
                             return <StuffListContainer
                                 key={item.id}

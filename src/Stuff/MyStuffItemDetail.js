@@ -11,8 +11,7 @@ export default class MyStuffItemDetail extends Component {
             id: null,
             subject: null,
             description: null,
-            mainImage: null,
-            otherImages: [],
+            imageList: [],
             published: null
         }
     }
@@ -34,8 +33,7 @@ export default class MyStuffItemDetail extends Component {
                     id: data.id,
                     subject: data.subject,
                     description: data.description,
-                    mainImage: data.mainImage,
-                    otherImages: data.otherImages,
+                    imageList: data.imageList,
                     published: data.published,
                 });
 
@@ -57,12 +55,6 @@ export default class MyStuffItemDetail extends Component {
         } else {
             $published = "Still a Draft";
         }
-        let $mainImagePreview = null;
-        if (this.state.mainImage) {
-            $mainImagePreview = (
-                    <img className="imgPreview" alt="preview" src={getImageURL(this.state.mainImage.targetFileName)}/>
-            )
-        }
         return (
             <Form className="col-6">
                 <dl className="dl-horizontal">
@@ -74,19 +66,9 @@ export default class MyStuffItemDetail extends Component {
                     <dd>{this.state.description}</dd>
                 </dl>
                 <dl className="dl-horizontal">
-                    <dt>Main Image</dt>
-                    <dd>
-                        <div className="imgPreviewComponent">
-                            <div className="imgPreviewContainer">
-                                {$mainImagePreview}
-                            </div>
-                        </div>
-                    </dd>
-                </dl>
-                <dl className="dl-horizontal">
-                    <dt>Other images</dt>
+                    <dt>Images</dt>
                     <div className="imgPreviewComponent">
-                        {this.state.otherImages.map((item, i) => {
+                        {this.state.imageList.map((item, i) => {
                             return (
                                 <div key={i} className="imgPreviewContainer">
                                     <img className="imgPreview" alt="preview" src={getImageURL(item.targetFileName)}/>
