@@ -28,7 +28,7 @@ export const postImageToServer = (file, resultCallback) => {
 }
 
 export const removeImageFromServer = (serverFileName, callback) => {
-    fetch(imageUploadURL + serverFileName, {
+     fetch(imageUploadURL + serverFileName, {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json',

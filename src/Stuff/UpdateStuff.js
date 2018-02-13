@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import MultipleImageUpload from '../Image/MultipleImageUpload'
 import {productBackendURL} from '../Config/Config'
 import {populateImagePreviewUrl} from '../Image/ImageHelper'
@@ -31,6 +31,8 @@ export default class UpdateStuff extends Component {
             })
             .then(data => {
                 console.log(data);
+                const payload = this.state.payload;
+                payload["imageList"] = data.imageList;
                 this.setState({
                     id: data.id,
                     subject: data.subject,
@@ -38,6 +40,7 @@ export default class UpdateStuff extends Component {
                     imageList: data.imageList.map((item, i) => {
                         return populateImagePreviewUrl(item);
                     }),
+                    payload: payload,
                     published: data.published,
                 });
 
@@ -71,17 +74,19 @@ export default class UpdateStuff extends Component {
             published: false,
             changeSaved: true,
         }, function() {
-            this.saveToServer();
+            this.saveToServer(() => {
+                this.props.history.push('/my-stuff/' + this.state.id);
+            });
         });
-        window.location = '/my-stuff/' + this.state.id;
     }
 
     handleDiscard = (e) => {
         this.setState({
             published: false,
             changeSaved: false,
+        }, () => {
+            this.props.history.push('/my-stuff/' + this.state.id);
         });
-        window.location = '/my-stuff/' + this.state.id;
     }
 
     handlePublish = (e) => {
@@ -93,12 +98,13 @@ export default class UpdateStuff extends Component {
             payload: payload,
             changeSaved: true,
         }, function() {
-            this.saveToServer();
+            this.saveToServer(() => {
+                this.props.history.push('/my-stuff/' + this.state.id);
+            });
         });
-        window.location = '/my-stuff/' + this.state.id;
     }
 
-    saveToServer = () => {
+    saveToServer = (callback) => {
         let payload = this.state.payload;
 
         fetch(productBackendURL + "/" + this.state.id, {
@@ -112,6 +118,7 @@ export default class UpdateStuff extends Component {
             .then(response => {
                 if (response.status === 200 || response.status === 201) {
                     console.log("Update successful");
+                    callback();
                 } else {
                     throw new Error('Something went wrong on api server!');
                 }
@@ -119,9 +126,6 @@ export default class UpdateStuff extends Component {
             .catch((error) => {
                 console.log(error)
             });
-        this.setState({
-            payload: {}
-        })
     }
 
     render() {

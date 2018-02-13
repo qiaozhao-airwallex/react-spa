@@ -10,7 +10,9 @@ export default class CreateStuff extends Component {
             subject: null,
             description: null,
             imageList: [],
-            published: null
+            published: null,
+            changeSaved: false,
+            error: null,
         }
     }
 
@@ -28,20 +30,25 @@ export default class CreateStuff extends Component {
 
     handleSaveForLater = (e) => {
         this.setState({
-            published: false
+            published: false,
+            changeSaved: true,
         }, function() {
             this.saveToServer();
         });
     }
 
     handleDiscard = (e) => {
-        alert("Discard")
+        this.setState({
+            published: false,
+            changeSaved: false,
+        });
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
         this.setState({
-            published: true
+            published: true,
+            changeSaved: true,
         }, function() {
             this.saveToServer();
         });
@@ -67,7 +74,7 @@ export default class CreateStuff extends Component {
                 if (response.status === 200 || response.status === 201) {
                     return response.json();
                 } else {
-                    throw new Error('Something went wrong on api server!');
+                    return response.text();
                 }
             })
             .then(data => {
@@ -90,7 +97,9 @@ export default class CreateStuff extends Component {
                         <Label for="description">Description</Label>
                         <Input type="textarea" name="description" id="description"  onChange={this.onChange}/>
                     </FormGroup>
-                    <MultipleImageUpload imageList={this.state.imageList} setImageList={this.updateImageListCallback}/>
+                    <MultipleImageUpload imageList={this.state.imageList}
+                                         setImageList={this.updateImageListCallback}
+                                         changeSaved={this.state.changeSaved} />
                     <Button color="primary" onClick={this.handleSubmit}>Submit</Button>{' '}
                     <Button color="info" onClick={this.handleSaveForLater}>Save for later</Button>{' '}
                     <Button color="danger" onClick={this.handleDiscard}>Discard</Button>{' '}
