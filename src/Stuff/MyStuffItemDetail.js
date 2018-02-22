@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {productBackendURL} from '../Config/Config'
 import {getImageURL} from '../Image/ImageHelper'
 import './Stuff.css'
-import { Button, Form } from 'reactstrap';
+import { Button } from 'reactstrap';
+import {httpRequestWithToken} from "../Utils/HttpWrapper";
+import {authentication} from "../Utils/Authentication";
 
 export default class MyStuffItemDetail extends Component {
     constructor(props) {
@@ -12,40 +14,31 @@ export default class MyStuffItemDetail extends Component {
             subject: null,
             description: null,
             imageList: [],
-            published: null
+            published: null,
+            owner: {
+                id: null,
+                username: null
+            },
         }
     }
 
     componentDidMount() {
-        fetch(productBackendURL + "/" + this.props.match.params.id, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
+        httpRequestWithToken({
+            url: productBackendURL + "/" + this.props.match.params.id,
+        }, (response) => {
+            this.setState({
+                id: response.data.id,
+                subject: response.data.subject,
+                description: response.data.description,
+                imageList: response.data.imageList,
+                published: response.data.published,
+                owner: response.data.owner
+            })
         })
-            .then(results => {
-                return results.json();
-            })
-            .then(data => {
-                console.log(data);
-                this.setState({
-                    id: data.id,
-                    subject: data.subject,
-                    description: data.description,
-                    imageList: data.imageList,
-                    published: data.published,
-                });
-
-            })
-            .catch((error) => {
-                console.log(error)
-            });
-
     }
 
     handleEdit = () => {
-        window.location = '/update-stuff/' + this.state.id;
+        this.props.history.push('/update-stuff/' + this.state.id);
     }
     
     render() {
@@ -55,8 +48,15 @@ export default class MyStuffItemDetail extends Component {
         } else {
             $published = "Still a Draft";
         }
+        let $editButton = null;
+        if (authentication.getAuthUser() === this.state.owner.username) {
+            $editButton = (<Button color="primary" onClick={this.handleEdit}>Edit</Button>)
+        }
         return (
-            <Form className="col-6">
+            <div className="col-6">
+                <h5>
+                    Owner: {this.state.owner.username}
+                </h5>
                 <dl className="dl-horizontal">
                     <dt>Subject</dt>
                     <dd>{this.state.subject}</dd>
@@ -81,8 +81,8 @@ export default class MyStuffItemDetail extends Component {
                     <dt>State</dt>
                     <dd>{$published}</dd>
                 </dl>
-                <Button color="primary" onClick={this.handleEdit}>Edit</Button>{' '}
-            </Form>
+                {$editButton}
+            </div>
         );
     }
 }

@@ -1,47 +1,31 @@
 import {imageUploadURL} from '../Config/Config'
 import {getImageURL} from './ImageHelper'
+import {httpRequestWithToken} from "../Utils/HttpWrapper";
 
 export const postImageToServer = (file, resultCallback) => {
     let formData = new FormData();
     formData.append('file', file);
-    fetch(imageUploadURL, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-        },
-        body: formData
+
+    httpRequestWithToken({
+        method: 'post',
+        url: imageUploadURL,
+        data: formData
+    }, (response) => {
+        resultCallback(response.data.targetFileName, getImageURL(response.data.targetFileName));
     })
-        .then(response => {
-            if (response.status === 200 || response.status === 201) {
-                return response.json();
-            } else {
-                throw new Error('Something went wrong on api server!');
-            }
-        })
-        .then(data => {
-            console.log(data);
-            resultCallback(data.targetFileName, getImageURL(data.targetFileName));
-        })
-        .catch((error) => {
-            console.log(error)
-        });
 }
 
 export const removeImageFromServer = (serverFileName, callback) => {
-     fetch(imageUploadURL + serverFileName, {
-        method: 'DELETE',
-        headers: {
-            'Accept': 'application/json',
-        },
-    })
-        .then(response => {
-            if (response.status === 200) {
+    httpRequestWithToken({
+        method: 'delete',
+        url: imageUploadURL + serverFileName,
+    }, (response) => {
+        if (response.status === 200) {
+            if (callback != null) {
                 callback();
-            } else {
-                throw new Error('Something went wrong on api server!');
             }
-        })
-        .catch((error) => {
-            console.log(error)
-        });
+        } else {
+            throw new Error('Something went wrong on api server!');
+        }
+    })
 }

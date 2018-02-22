@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import MultipleImageUpload from '../Image/MultipleImageUpload'
 import {productBackendURL} from '../Config/Config'
+import {httpRequestWithToken} from "../Utils/HttpWrapper";
 
 export default class CreateStuff extends Component {
     constructor(props) {
@@ -62,27 +63,16 @@ export default class CreateStuff extends Component {
             published: this.state.published,
         };
 
-        fetch(productBackendURL, {
-            method: 'POST',
+        httpRequestWithToken({
+            method: 'post',
+            url: productBackendURL,
             headers: {
-                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
-        })
-            .then(response => {
-                if (response.status === 200 || response.status === 201) {
-                    return response.json();
-                } else {
-                    return response.text();
-                }
-            })
-            .then(data => {
-                console.log(data);
-            })
-            .catch((error) => {
-                console.log(error)
-            });
+            data: JSON.stringify(payload)
+        }, (response) => {
+            alert("Object created successfully")
+        });
     }
 
     render() {

@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import MultipleImageUpload from '../Image/MultipleImageUpload'
 import {productBackendURL} from '../Config/Config'
 import {populateImagePreviewUrl} from '../Image/ImageHelper'
+import {httpRequestWithToken} from "../Utils/HttpWrapper";
 
 export default class UpdateStuff extends Component {
     constructor(props) {
@@ -19,36 +20,23 @@ export default class UpdateStuff extends Component {
     }
 
     componentDidMount() {
-        fetch(productBackendURL + "/" + this.props.match.params.id, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(results => {
-                return results.json();
-            })
-            .then(data => {
-                console.log(data);
+        httpRequestWithToken({
+            url: productBackendURL + "/" + this.props.match.params.id,
+        }, (response) => {
                 const payload = this.state.payload;
-                payload["imageList"] = data.imageList;
+                payload["imageList"] = response.data.imageList;
                 this.setState({
-                    id: data.id,
-                    subject: data.subject,
-                    description: data.description,
-                    imageList: data.imageList.map((item, i) => {
+                    id: response.data.id,
+                    subject: response.data.subject,
+                    description: response.data.description,
+                    imageList: response.data.imageList.map((item, i) => {
                         return populateImagePreviewUrl(item);
                     }),
                     payload: payload,
-                    published: data.published,
+                    published: response.data.published,
                 });
 
             })
-            .catch((error) => {
-                console.log(error)
-            });
-
     }
 
     updateImageListCallback = (imageList) => {
@@ -107,25 +95,16 @@ export default class UpdateStuff extends Component {
     saveToServer = (callback) => {
         let payload = this.state.payload;
 
-        fetch(productBackendURL + "/" + this.state.id, {
-            method: 'PUT',
+        httpRequestWithToken({
+            method: 'put',
+            url: productBackendURL + "/" + this.state.id,
             headers: {
-                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            data: JSON.stringify(payload)
+        }, (response) => {
+            alert("Object updated successfully")
         })
-            .then(response => {
-                if (response.status === 200 || response.status === 201) {
-                    console.log("Update successful");
-                    callback();
-                } else {
-                    throw new Error('Something went wrong on api server!');
-                }
-            })
-            .catch((error) => {
-                console.log(error)
-            });
     }
 
     render() {
