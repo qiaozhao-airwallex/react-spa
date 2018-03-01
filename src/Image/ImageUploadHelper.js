@@ -11,14 +11,14 @@ export const postImageToServer = (file, resultCallback) => {
         url: imageUploadURL,
         data: formData
     }, (response) => {
-        resultCallback(response.data.targetFileName, getImageURL(response.data.targetFileName));
+        resultCallback(response.data.id, getImageURL(response.data.targetFileName));
     })
 }
 
-export const removeImageFromServer = (serverFileName, callback) => {
+export const removeImageFromServer = (serverFileId, callback) => {
     httpRequestWithToken({
         method: 'delete',
-        url: imageUploadURL + serverFileName,
+        url: imageUploadURL + serverFileId,
     }, (response) => {
         if (response.status === 200) {
             if (callback != null) {

@@ -62,9 +62,7 @@ export default class UpdateStuff extends Component {
             published: false,
             changeSaved: true,
         }, function() {
-            this.saveToServer(() => {
-                this.props.history.push('/my-stuff/' + this.state.id);
-            });
+            this.saveToServer();
         });
     }
 
@@ -86,9 +84,7 @@ export default class UpdateStuff extends Component {
             payload: payload,
             changeSaved: true,
         }, function() {
-            this.saveToServer(() => {
-                this.props.history.push('/my-stuff/' + this.state.id);
-            });
+            this.saveToServer();
         });
     }
 
@@ -103,7 +99,7 @@ export default class UpdateStuff extends Component {
             },
             data: JSON.stringify(payload)
         }, (response) => {
-            alert("Object updated successfully")
+            this.props.history.push('/my-stuff/' + this.state.id);
         })
     }
 

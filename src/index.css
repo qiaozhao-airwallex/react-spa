@@ -24,3 +24,19 @@ ul.header li a {
 .active {
   background-color: #0099FF;
 }
+
+.content {
+  display: flex;
+  background-color: #E9EBEE;
+}
+
+.mainContent {
+  width: 80%;
+  float: left;
+  margin: 1px;
+}
+
+.sideContent {
+  margin: 1px;
+  border-left: solid 1px #CCCCCC;
+}

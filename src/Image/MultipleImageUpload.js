@@ -15,31 +15,25 @@ export default class MultipleImageUpload extends React.Component {
     }
 
     componentWillUnmount() {
-        if (this.props.changeSaved) {
-            this.state.tmpImagesRemoved.map((item, i) => {
-                return removeImageFromServer(item.targetFileName);
-            });
-        } else {
+        if (!this.props.changeSaved) {
             this.state.tmpImagesAdded.map((item, i) => {
-                return removeImageFromServer(item.targetFileName);
+                return removeImageFromServer(item.id);
             });
         }
     }
 
     uploadImageToServer = (e) => {
         e.preventDefault();
-        postImageToServer(e.target.files[0], (serverFileName, imagePreviewUrl) => {
+        postImageToServer(e.target.files[0], (serverFileId, imagePreviewUrl) => {
             this.setState({
                 tmpImagesAdded: this.state.tmpImagesAdded.concat({
-                    targetFileName: serverFileName,
-                    imagePreviewUrl: imagePreviewUrl,
-                    displayOrder: this.state.displayOrder,
+                    id: serverFileId
                 }),
                 displayOrder: this.props.imageList.length > 0 ? this.props.imageList[this.props.imageList.length - 1].displayOrder + 1 : 1
             }, () => {
                 var data = this.props.imageList;
                 data.push({
-                    targetFileName: serverFileName,
+                    id: serverFileId,
                     imagePreviewUrl: imagePreviewUrl,
                     displayOrder: this.state.displayOrder,
                 })

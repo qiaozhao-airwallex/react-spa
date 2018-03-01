@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Input } from 'reactstrap';
 import {userBackendURL} from "../Config/Config";
-import {httpRequestWithToken} from "../Utils/HttpWrapper";
+import {httpRequest} from "../Utils/HttpWrapper";
 
 export default class SignUp extends Component {
     constructor(props) {
@@ -25,9 +25,12 @@ export default class SignUp extends Component {
             password: this.state.password,
         };
 
-        httpRequestWithToken({
+        httpRequest({
             method: 'post',
             url: userBackendURL,
+            headers: {
+                'Content-Type': 'application/json'
+            },
             data: JSON.stringify(payload)
         }, (response) => {
             alert("User created successfully")

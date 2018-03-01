@@ -14,6 +14,8 @@ import CreateStuff from "./Stuff/CreateStuff";
 import UpdateStuff from "./Stuff/UpdateStuff";
 import {authentication} from "./Utils/Authentication";
 
+import FriendList from "./Account/FriendList";
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
         authentication.isAuthenticated()
@@ -50,14 +52,19 @@ export default class Main extends Component {
                         <li><NavLink to="/create-stuff">Publish More</NavLink></li>
                     </ul>
                     <div className="content">
-                        <PrivateRoute exact path="/" component={MyStuffList}/>
-                        <PrivateRoute path="/my-published" component={MyStuffList}/>
-                        <PrivateRoute path="/my-unPublished" component={MyStuffList}/>
-                        <PrivateRoute path="/create-stuff" component={CreateStuff}/>
-                        <PrivateRoute path="/update-stuff/:id" component={UpdateStuff}/>
-                        <PrivateRoute path="/my-stuff/:id" component={MyStuffItemDetail}/>
-                        <Route path="/signup" component={SignUp}/>
-                        <Route path="/signin" component={SignIn}/>
+                        <div className="mainContent">
+                            <PrivateRoute exact path="/" component={MyStuffList}/>
+                            <PrivateRoute path="/my-published" component={MyStuffList}/>
+                            <PrivateRoute path="/my-unPublished" component={MyStuffList}/>
+                            <PrivateRoute path="/create-stuff" component={CreateStuff}/>
+                            <PrivateRoute path="/update-stuff/:id" component={UpdateStuff}/>
+                            <PrivateRoute path="/my-stuff/:id" component={MyStuffItemDetail}/>
+                            <Route path="/signup" component={SignUp}/>
+                            <Route path="/signin" component={SignIn}/>
+                        </div>
+                        <div className="sideContent">
+                            <FriendList />
+                        </div>
                     </div>
                 </div>
             </BrowserRouter>
