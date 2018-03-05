@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Button, Form, FormGroup, Input } from 'reactstrap';
 import {userBackendURL} from "../Config/Config";
 import {httpRequest} from "../Utils/HttpWrapper";
+import {
+    Link
+} from "react-router-dom";
 
 export default class SignUp extends Component {
     constructor(props) {
@@ -39,8 +42,8 @@ export default class SignUp extends Component {
 
     render() {
         return (
-            <div>
-                <Form className="col-6">
+            <div  className="loginDialog">
+                <Form>
                     <FormGroup>
                         <Input type="username" name="username" id="username" placeholder="Email Address"  onChange={this.onChange}/>
                     </FormGroup>
@@ -49,6 +52,8 @@ export default class SignUp extends Component {
                     </FormGroup>
                     <Button color="primary" onClick={this.handleSubmit}>Create Account</Button>{' '}
                 </Form>
+
+                <Link to ='/signin' ><Button color="info" size="lg">Sign In</Button></Link>
             </div>
         );
     }

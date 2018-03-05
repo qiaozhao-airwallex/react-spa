@@ -3,22 +3,24 @@ export const authentication = {
         return this.getAuthSession() != null
     },
     authenticate(authData) {
+        alert("log in")
         localStorage.setItem("session", authData);
     },
     signout(cb) {
+        alert("log out")
         localStorage.removeItem('session');
         setTimeout(cb, 100)
     },
     getAuthSession() {
         return JSON.parse(localStorage.getItem("session"));
     },
-    getAuthUser() {
-        return this.getAuthSession().user;
+    getAuthUserName() {
+        return this.getAuthSession().email;
     },
-    getAuthData() {
-        return this.getAuthSession().data;
+    getAuthUserID() {
+        return this.getAuthSession().userID;
     },
     getToken() {
-        return this.getAuthData().access_token;
+        return this.getAuthSession().access_token;
     }
 }

@@ -8,6 +8,7 @@ import {
 import {authentication} from "../Utils/Authentication";
 import {httpRequest} from '../Utils/HttpWrapper';
 import FacebookLogin from 'react-facebook-login';
+import './Account.css'
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -40,11 +41,7 @@ export default class SignIn extends Component {
             }
         }, (response) => {
             if (response.status === 200) {
-                authentication.authenticate(
-                    JSON.stringify({
-                        user: this.state.username,
-                        data: response.data
-                    }));
+                authentication.authenticate(JSON.stringify(response.data))
             } else {
                 throw new Error("Fail to authenticate");
             }
@@ -74,11 +71,7 @@ export default class SignIn extends Component {
                 }
             }, (response) => {
                 if (response.status === 200) {
-                    authentication.authenticate(
-                        JSON.stringify({
-                            user: username,
-                            data: response.data
-                        }));
+                    authentication.authenticate(JSON.stringify(response.data))
                 } else {
                     throw new Error("Fail to authenticate");
                 }
@@ -95,7 +88,7 @@ export default class SignIn extends Component {
         }
 
         return (
-            <div>
+            <div className="loginDialog">
                 <Form onSubmit={this.handleSubmit}>
                     <FormGroup>
                         <Input type="username" name="username" id="username" placeholder="Email Address" value={this.state.username} onChange={this.onChange}/>

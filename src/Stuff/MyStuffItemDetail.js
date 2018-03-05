@@ -49,7 +49,7 @@ export default class MyStuffItemDetail extends Component {
             $published = "Still a Draft";
         }
         let $editButton = null;
-        if (authentication.getAuthUser() === this.state.owner.username) {
+        if (authentication.getAuthUserID() === this.state.owner) {
             $editButton = (<Button color="primary" onClick={this.handleEdit}>Edit</Button>)
         }
         return (

@@ -30,7 +30,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const AuthButton = withRouter(({ history }) => (
     authentication.isAuthenticated() ? (
         <p>
-            Welcome, {authentication.getAuthUser()}! <button onClick={() => {
+            Welcome, {authentication.getAuthUserName()}! <button onClick={() => {
             authentication.signout(() => history.push('/'))
         }}>Sign out</button>
         </p>
@@ -62,9 +62,9 @@ export default class Main extends Component {
                             <Route path="/signup" component={SignUp}/>
                             <Route path="/signin" component={SignIn}/>
                         </div>
-                        <div className="sideContent">
-                            <FriendList />
-                        </div>
+
+                        <FriendList />
+
                     </div>
                 </div>
             </BrowserRouter>

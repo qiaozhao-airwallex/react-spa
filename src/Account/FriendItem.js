@@ -5,7 +5,7 @@ export default class FriendItem extends Component {
     render() {
         return (
             <div>
-                Pic:{this.props.userName}
+                {this.props.userName}
             </div>
         );
     }
