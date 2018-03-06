@@ -3,16 +3,17 @@ export const authentication = {
         return this.getAuthSession() != null
     },
     authenticate(authData) {
-        alert("log in")
         localStorage.setItem("session", authData);
     },
-    signout(cb) {
-        alert("log out")
+    signOut(cb) {
         localStorage.removeItem('session');
         setTimeout(cb, 100)
     },
     getAuthSession() {
         return JSON.parse(localStorage.getItem("session"));
+    },
+    getAuthName() {
+        return this.getAuthSession().name;
     },
     getAuthUserName() {
         return this.getAuthSession().email;

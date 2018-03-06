@@ -62,6 +62,7 @@ export default class SignIn extends Component {
                     password: faceBookResponse.accessToken,
                     social: 'facebook',
                     accessToken: faceBookResponse.accessToken,
+                    name: faceBookResponse.name,
                     email: faceBookResponse.email,
                     userID: faceBookResponse.userID,
                     expiresIn: faceBookResponse.expiresIn

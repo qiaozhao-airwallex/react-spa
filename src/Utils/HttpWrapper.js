@@ -26,7 +26,7 @@ export const httpRequestWithToken = (requestConfig, responseCallback, errorCallb
     httpRequest(requestConfig, responseCallback, (error) => {
         if (!error.response
             || (error.response.status === 401 && error.response.data.error === 'invalid_token')) {
-            authentication.signout();
+            authentication.signOut();
         }
         if (errorCallback != null) {
             errorCallback(error)

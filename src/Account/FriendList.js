@@ -25,6 +25,12 @@ export default class FriendList extends Component {
         })
     }
 
+    componentDidMount() {
+        if (authentication.isAuthenticated() && !this.state.friendLoaded) {
+            this.reloadFriends();
+        }
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
         if (authentication.isAuthenticated() && !nextState.friendLoaded) {
             this.reloadFriends();
@@ -47,7 +53,7 @@ export default class FriendList extends Component {
         return (
             <div className="sideContent">
                 {this.state.friendLoaded && this.state.friendList.map((item, i) => {
-                    return <FriendItem userName={item.username}/>
+                    return <FriendItem name={item.name}/>
                 })}
             </div>
         );
