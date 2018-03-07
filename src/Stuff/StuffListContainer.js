@@ -7,7 +7,7 @@ import './Stuff.css'
 export default class StuffListContainer extends Component {
     render() {
         return (
-            <div className="item-container" className="item-con">
+            <div className="item-container">
                 <Link to ={'/my-stuff/' + this.props.id}>
                     <div className="img-wraper">
                         <img alt={this.props.subject} src={this.props.image} />

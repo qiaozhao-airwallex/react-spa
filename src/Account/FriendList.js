@@ -3,7 +3,6 @@ import FriendItem from './FriendItem';
 import {httpRequestWithToken} from "../Utils/HttpWrapper";
 import {userBackendURL} from "../Config/Config";
 import {authentication} from "../Utils/Authentication";
-import {getImageURL} from "../Image/ImageHelper";
 
 export default class FriendList extends Component {
     constructor(props) {
