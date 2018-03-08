@@ -9,6 +9,7 @@ import {authentication} from "../Utils/Authentication";
 import {httpRequest} from '../Utils/HttpWrapper';
 import FacebookLogin from 'react-facebook-login';
 import './Account.css'
+import qs from 'qs'
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -28,18 +29,17 @@ export default class SignIn extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        var params = new URLSearchParams();
-        params.append('grant_type', 'password');
-        params.append('username', this.state.username);
-        params.append('password', this.state.password);
-
         httpRequest({
             method: 'post',
             url: oauthTokenBackendURL,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            data: params,
+            data: qs.stringify({
+                'grant_type': 'password',
+                'username': this.state.username,
+                'password': this.state.password
+            }),
             auth: {
                 username: 'my-garage',
             }
