@@ -52,7 +52,7 @@ export default class FriendList extends Component {
         return (
             <div className="sideContent">
                 {this.state.friendLoaded && this.state.friendList.map((item, i) => {
-                    return <FriendItem name={item.name}/>
+                    return <FriendItem key={item.id} name={item.name}/>
                 })}
             </div>
         );

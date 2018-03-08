@@ -28,14 +28,18 @@ export default class SignIn extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
+        var params = new URLSearchParams();
+        params.append('grant_type', 'password');
+        params.append('username', this.state.username);
+        params.append('password', this.state.password);
+
         httpRequest({
             method: 'post',
             url: oauthTokenBackendURL,
-            params: {
-                grant_type: 'password',
-                username: this.state.username,
-                password: this.state.password
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
+            data: params,
             auth: {
                 username: 'my-garage',
             }
