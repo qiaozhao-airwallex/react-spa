@@ -9,6 +9,7 @@ import {
 import SignUp from "./Account/SignUp";
 import SignIn from "./Account/SignIn";
 import MyStuffList from "./Stuff/MyStuffList";
+import MyFriendsStuffList from "./Stuff/MyFriendsStuffList";
 import MyStuffItemDetail from "./Stuff/MyStuffItemDetail";
 import CreateStuff from "./Stuff/CreateStuff";
 import UpdateStuff from "./Stuff/UpdateStuff";
@@ -19,7 +20,7 @@ import FriendList from "./Account/FriendList";
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
         authentication.isAuthenticated()
-            ? <Component {...props} />
+            ? <Component {...props} {...rest}/>
             : <Redirect to={{
                 pathname: '/signin',
                 state: { from: props.location }
@@ -39,7 +40,13 @@ const AuthButton = withRouter(({ history }) => (
     )
 ))
 
+
 export default class Main extends Component {
+    loadFriendProductsCallback = (user) => {
+        alert(user);
+//    this.props.setImageList(user);
+    }
+
     render() {
         return (
             <BrowserRouter>
@@ -59,10 +66,12 @@ export default class Main extends Component {
                             <PrivateRoute path="/create-stuff" component={CreateStuff}/>
                             <PrivateRoute path="/update-stuff/:id" component={UpdateStuff}/>
                             <PrivateRoute path="/my-stuff/:id" component={MyStuffItemDetail}/>
+                            <PrivateRoute path="/my-friends/:id/products" component={MyFriendsStuffList}/>
                             <Route path="/signup" component={SignUp}/>
                             <Route path="/signin" component={SignIn}/>
                         </div>
 
+                        {/*<FriendList loadFriendProductsCallback={this.loadFriendProductsCallback}/>*/}
                         <FriendList />
 
                     </div>

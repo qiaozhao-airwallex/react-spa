@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FriendItem from './FriendItem';
 import {httpRequestWithToken} from "../Utils/HttpWrapper";
-import {userBackendURL} from "../Config/Config";
+import {meFriendsBackendURL} from "../Config/Config";
 import {authentication} from "../Utils/Authentication";
 
 export default class FriendList extends Component {
@@ -15,10 +15,10 @@ export default class FriendList extends Component {
 
     reloadFriends = () => {
         httpRequestWithToken({
-            url: userBackendURL + authentication.getAuthUserID(),
+            url: meFriendsBackendURL,
         }, (response) => {
             this.setState({
-                friendList: response.data.friends,
+                friendList: response.data,
                 friendLoaded: true
             });
         })
@@ -52,7 +52,7 @@ export default class FriendList extends Component {
         return (
             <div className="sideContent">
                 {this.state.friendLoaded && this.state.friendList.map((item, i) => {
-                    return <FriendItem key={item.id} name={item.name}/>
+                    return <FriendItem key={item.id} id={item.id} name={item.name} />
                 })}
             </div>
         );

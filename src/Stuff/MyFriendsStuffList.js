@@ -2,29 +2,38 @@ import React, { Component } from 'react';
 import StuffListContainer from './StuffListContainer';
 import {productBackendURL} from '../Config/Config'
 import {getImageURL} from '../Image/ImageHelper'
-import {httpRequestWithToken} from '../Utils/HttpWrapper';
+import {httpRequestWithTokenAndPathVar} from '../Utils/HttpWrapper';
 
-export default class MyStuffList extends Component {
+export default class MyFriendsStuffList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            stuffList: []
+            stuffList: [],
+            currentFriend: null,
         }
     }
 
     componentDidMount() {
-        let urlParam='?category=unknown'
-        if (this.props.match.path === '/my-published' || this.props.match.path === '/') {
-            urlParam = '?category=published'
-        } else if (this.props.match.path === '/my-unPublished') {
-            urlParam = '?category=unPublished'
-        }
+        this.loadFriendProducts(this.props.match.params.id);
+    }
 
-        httpRequestWithToken({
+    componentWillReceiveProps(nextProps) {
+        this.loadFriendProducts(nextProps.match.params.id);
+    }
+
+    loadFriendProducts = (userId) => {
+        if (this.state.currentFriend === userId) {
+            return;
+        }
+        let urlParam='?userId={userId}'
+        httpRequestWithTokenAndPathVar({
             url: productBackendURL + urlParam,
+        }, {
+            userId: userId
         }, (response) => {
             this.setState({
-                stuffList: response.data
+                stuffList: response.data,
+                currentFriend: userId
             });
         })
     }
@@ -32,7 +41,7 @@ export default class MyStuffList extends Component {
     render() {
         return (
             <div>
-                <h1>This is my garage</h1>
+                <h1>This is {this.state.currentFriend} garage</h1>
                 <div className="item-list">
                         {this.state.stuffList.map((item, i) => {
                             var $imgAbsolutURL = null;

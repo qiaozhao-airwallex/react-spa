@@ -49,7 +49,7 @@ export default class SignIn extends Component {
             } else {
                 throw new Error("Fail to authenticate");
             }
-            this.forceUpdate();
+            this.props.history.push('/my-published');
         })
     }
 
@@ -80,7 +80,7 @@ export default class SignIn extends Component {
                 } else {
                     throw new Error("Fail to authenticate");
                 }
-                this.forceUpdate();
+                this.props.history.push('/my-published');
             })
         }
     }

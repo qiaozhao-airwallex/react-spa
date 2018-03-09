@@ -17,6 +17,17 @@ export const httpRequest = (requestConfig, responseCallback, errorCallback) => {
 }
 
 export const httpRequestWithToken = (requestConfig, responseCallback, errorCallback) => {
+    httpRequestWithTokenAndPathVar(requestConfig, {}, responseCallback, errorCallback)
+}
+
+
+export const httpRequestWithTokenAndPathVar = (requestConfig, pathVar, responseCallback, errorCallback) => {
+    for (var key in pathVar) {
+        if (pathVar.hasOwnProperty(key)) {
+            var val = pathVar[key];
+            requestConfig.url = requestConfig.url.replace('{' + key + '}', val);
+        }
+    }
     const token = authentication.getToken();
 
     var headers = {Authorization: 'Bearer ' + token};
