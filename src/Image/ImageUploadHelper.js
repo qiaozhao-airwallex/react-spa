@@ -2,14 +2,15 @@ import {imageUploadURL} from '../Config/Config'
 import {getImageURL} from './ImageHelper'
 import {httpRequestWithToken} from "../Utils/HttpWrapper";
 
-export const postImageToServer = (file, resultCallback) => {
+export const postImageToServer = (file, progressCallback, resultCallback) => {
     let formData = new FormData();
     formData.append('file', file);
 
     httpRequestWithToken({
         method: 'post',
         url: imageUploadURL,
-        data: formData
+        data: formData,
+        onUploadProgress: progressCallback
     }, (response) => {
         resultCallback(response.data.id, getImageURL(response.data.targetFileName));
     })

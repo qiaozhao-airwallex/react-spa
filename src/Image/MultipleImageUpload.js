@@ -3,7 +3,7 @@ import MultipleImagePreviewDisplay from './MultipleImagePreviewDisplay'
 import './Image.css'
 import {postImageToServer} from './ImageUploadHelper'
 import {removeImageFromServer} from './ImageUploadHelper'
-
+import spinner from './Spinner-1s-200px.svg';
 export default class MultipleImageUpload extends React.Component {
     constructor(props) {
         super(props);
@@ -11,6 +11,7 @@ export default class MultipleImageUpload extends React.Component {
             tmpImagesAdded: [],
             tmpImagesRemoved: [],
             displayOrder: 0,
+            imageUploadProgress: 0,
         }
     }
 
@@ -24,7 +25,17 @@ export default class MultipleImageUpload extends React.Component {
 
     uploadImageToServer = (e) => {
         e.preventDefault();
-        postImageToServer(e.target.files[0], (serverFileId, imagePreviewUrl) => {
+        var data = this.props.imageList;
+        data.push({
+            id: 'tmp',
+            imagePreviewUrl: spinner,
+        })
+        this.props.setImageList(data);
+        postImageToServer(e.target.files[0], (progressEvent) => {
+            this.setState({
+                imageUploadProgress: Math.ceil(progressEvent.loaded * 100 / progressEvent.total),
+            })
+        }, (serverFileId, imagePreviewUrl) => {
             this.setState({
                 tmpImagesAdded: this.state.tmpImagesAdded.concat({
                     id: serverFileId
@@ -32,6 +43,7 @@ export default class MultipleImageUpload extends React.Component {
                 displayOrder: this.props.imageList.length > 0 ? this.props.imageList[this.props.imageList.length - 1].displayOrder + 1 : 1
             }, () => {
                 var data = this.props.imageList;
+                data.pop();
                 data.push({
                     id: serverFileId,
                     imagePreviewUrl: imagePreviewUrl,
@@ -59,7 +71,11 @@ export default class MultipleImageUpload extends React.Component {
                     <input className="fileInput"
                            type="file"
                            onChange={(e)=>this.uploadImageToServer(e)} />
-                <MultipleImagePreviewDisplay imageList={this.props.imageList} removeImage={this.removeImageCallback}/>
+                <MultipleImagePreviewDisplay
+                    imageList={this.props.imageList}
+                    removeImage={this.removeImageCallback}
+                    imageUploadProgress={this.state.imageUploadProgress}
+                />
             </div>
         )
     }
