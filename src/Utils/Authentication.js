@@ -1,13 +1,17 @@
 export const authentication = {
     isAuthenticated() {
-        return this.getAuthSession() != null
+        return (this.getAuthSession() != null && localStorage.getItem("session_valid") === "true")
     },
     authenticate(authData) {
         localStorage.setItem("session", authData);
+        localStorage.setItem("session_valid", "true");
     },
     signOut(cb) {
-        localStorage.removeItem('session');
-        setTimeout(cb, 100)
+        localStorage.setItem("session_valid", "false");
+        cb();
+        setTimeout(() => {
+            localStorage.removeItem('session')
+        }, 2000);
     },
     getAuthSession() {
         return JSON.parse(localStorage.getItem("session"));
