@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="add254ff-d25c-471d-9db9-e23c59aacce8" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/Authentication.js" afterPath="$PROJECT_DIR$/src/Utils/Authentication.js" />
       <change beforePath="$PROJECT_DIR$/src/Utils/HttpWrapper.js" afterPath="$PROJECT_DIR$/src/Utils/HttpWrapper.js" />
     </list>
     <ignored path="react-spa.iws" />
@@ -58,7 +56,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Authentication.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Authentication.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Utils/Authentication.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="15">
@@ -71,18 +69,20 @@
       <file leaf-file-name="Main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
-              <caret line="34" column="58" lean-forward="true" selection-start-line="34" selection-start-column="35" selection-end-line="34" selection-end-column="58" />
-              <folding />
+            <state relative-caret-position="394">
+              <caret line="30" column="40" lean-forward="false" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="40" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HttpWrapper.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="HttpWrapper.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Utils/HttpWrapper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="39" column="58" lean-forward="false" selection-start-line="39" selection-start-column="58" selection-end-line="39" selection-end-column="58" />
+            <state relative-caret-position="371">
+              <caret line="39" column="35" lean-forward="false" selection-start-line="39" selection-start-column="35" selection-end-line="39" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -168,6 +168,7 @@
       <find>XMLHttpRequest</find>
       <find>progressbar-container</find>
       <find>PriceCategory</find>
+      <find>history</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -253,8 +254,8 @@
         <option value="$PROJECT_DIR$/src/Image/ProgressBar.js" />
         <option value="$PROJECT_DIR$/src/Image/MultipleImageUpload.js" />
         <option value="$PROJECT_DIR$/src/Image/MultipleImagePreviewDisplay.js" />
-        <option value="$PROJECT_DIR$/src/Utils/HttpWrapper.js" />
         <option value="$PROJECT_DIR$/src/Utils/Authentication.js" />
+        <option value="$PROJECT_DIR$/src/Utils/HttpWrapper.js" />
       </list>
     </option>
   </component>
@@ -1056,12 +1057,12 @@
       <workItem from="1517199989543" duration="64648000" />
       <workItem from="1518583815832" duration="102584000" />
       <workItem from="1520997951528" duration="14729000" />
-      <workItem from="1524528880801" duration="1075000" />
+      <workItem from="1524528880801" duration="1275000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="225967000" />
+    <option name="totallyTimeSpent" value="226167000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="105" y="42" width="1277" height="803" extended-state="0" />
@@ -1271,6 +1272,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="885">
           <caret line="64" column="30" lean-forward="false" selection-start-line="64" selection-start-column="30" selection-end-line="64" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1387,26 +1389,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Utils/Authentication.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="23" lean-forward="false" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="34" column="58" lean-forward="true" selection-start-line="34" selection-start-column="35" selection-end-line="34" selection-end-column="58" />
-          <folding />
+        <state relative-caret-position="394">
+          <caret line="30" column="40" lean-forward="false" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Utils/HttpWrapper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="39" column="58" lean-forward="false" selection-start-line="39" selection-start-column="58" selection-end-line="39" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Utils/Authentication.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="23" lean-forward="false" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
+        <state relative-caret-position="371">
+          <caret line="39" column="35" lean-forward="false" selection-start-line="39" selection-start-column="35" selection-end-line="39" selection-end-column="35" />
           <folding />
         </state>
       </provider>
