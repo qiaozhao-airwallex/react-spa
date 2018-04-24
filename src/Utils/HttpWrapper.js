@@ -37,7 +37,7 @@ export const httpRequestWithTokenAndPathVar = (requestConfig, pathVar, responseC
     httpRequest(requestConfig, responseCallback, (error) => {
         if (!error.response
             || (error.response.status === 401 && error.response.data.error === 'invalid_token')) {
-            authentication.signOut();
+            authentication.signOut(() => history.push('/'));
         }
         if (errorCallback != null) {
             errorCallback(error)

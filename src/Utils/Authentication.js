@@ -1,6 +1,7 @@
 export const authentication = {
     isAuthenticated() {
-        return (this.getAuthSession() != null && localStorage.getItem("session_valid") === "true")
+        let is = (localStorage.getItem("session") != null && localStorage.getItem("session_valid") === "true");
+        return is
     },
     authenticate(authData) {
         localStorage.setItem("session", authData);
@@ -8,7 +9,9 @@ export const authentication = {
     },
     signOut(cb) {
         localStorage.setItem("session_valid", "false");
-        cb();
+        if (cb) {
+            cb();
+        }
         setTimeout(() => {
             localStorage.removeItem('session')
         }, 2000);
